@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>水浒·侠义谱 主线设计案 v1</title>
+<style>
+  :root{
+    --bg:#F2EAD9; --bg2:#E7DCC3; --ink:#2B211C; --ink2:#6E6352; --line:#D8CCB2;
+    --zhu:#A63A2B; --zhu2:#C62828; --teal:#2E5E5C; --jin:#9A7B1E; --qing:#1F6F4A;
+    --paper:#FBF6EA;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:'Noto Serif SC','Songti SC','SimSun',serif;line-height:1.75;}
+  .wrap{max-width:900px;margin:0 auto;padding:28px 20px 60px;}
+  h1{font-size:26px;letter-spacing:4px;text-align:center;margin-bottom:4px;}
+  .sub{text-align:center;font-size:12.5px;color:var(--ink2);letter-spacing:2px;margin-bottom:6px;}
+  .meta{text-align:center;font-size:11.5px;color:var(--ink2);margin-bottom:26px;}
+  h2{font-size:19px;color:var(--zhu);border-left:4px solid var(--zhu);padding-left:10px;margin:34px 0 14px;letter-spacing:2px;}
+  h3{font-size:15px;color:var(--ink);margin:18px 0 8px;letter-spacing:1px;}
+  p{font-size:13.5px;color:#3D352B;margin-bottom:8px;text-align:justify;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0 16px;background:var(--paper);}
+  th{background:var(--bg2);color:var(--ink);padding:7px 9px;border:1px solid var(--line);font-weight:700;text-align:left;letter-spacing:1px;}
+  td{padding:6px 9px;border:1px solid var(--line);color:#3D352B;vertical-align:top;}
+  .tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:999px;border:1px solid;margin-right:4px;white-space:nowrap;}
+  .t-zhan{color:var(--zhu2);border-color:var(--zhu2);}
+  .t-ju{color:var(--ink2);border-color:#B9AD94;}
+  .t-jue{color:var(--jin);border-color:var(--jin);}
+  .t-shou{color:var(--qing);border-color:var(--qing);}
+  .t-xing{color:var(--zhu);border-color:var(--zhu);background:rgba(166,58,43,0.06);}
+  .box{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0 16px;}
+  .box-warn{border-color:var(--jin);background:rgba(154,123,30,0.05);}
+  .box-key{border-color:var(--zhu);background:rgba(166,58,43,0.04);}
+  .note{font-size:12px;color:var(--ink2);}
+  .small{font-size:11.5px;color:var(--ink2);}
+  ul{margin:4px 0 10px 22px;}
+  li{font-size:13px;color:#3D352B;margin-bottom:4px;}
+  .star{color:var(--jin);}
+  .zhang{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:12px;}
+  .zhang-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
+  .zhang-no{font-size:20px;font-weight:900;color:var(--zhu);letter-spacing:1px;}
+  .zhang-name{font-size:15.5px;font-weight:700;letter-spacing:2px;}
+  .zhang-sub{font-size:11.5px;color:var(--ink2);}
+  .fenge{height:1px;background:var(--line);margin:8px 0;}
+  .cover{border:2px solid var(--zhu);border-radius:14px;padding:34px 22px;text-align:center;margin-bottom:20px;background:linear-gradient(180deg,var(--paper),var(--bg2));}
+  .cover .t{font-size:30px;letter-spacing:10px;font-weight:900;color:var(--ink);}
+  .cover .s{font-size:13px;color:var(--ink2);letter-spacing:3px;margin-top:8px;}
+  .cover .v{font-size:11.5px;color:var(--zhu);letter-spacing:2px;margin-top:16px;border-top:1px dashed var(--line);padding-top:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cover">
+    <div class="t">水浒·侠义谱</div>
+    <div class="s">游戏内容设计案 · 主线篇 v1.1</div>
+    <div class="v">模式预设 · 选人制角色扮演主线 · 十章节点设计 · 差异化机制 · 多阵营线路<br>2026-09 · 设计稿（本稿为设计文档，非可运行游戏）</div>
+  </div>
+
+  <!-- ==================== 一、模式总览 ==================== -->
+  <h2>一、模式总览（预设四项）</h2>
+  <p>四项模式共用同一套卡池、战斗引擎与存档体系，先预设框架，主线定稿后统一接入入口。</p>
+  <table>
+    <tr><th style="width:110px;">模式</th><th>定位</th><th style="width:150px;">入口与解锁</th><th style="width:110px;">开发优先级</th></tr>
+    <tr><td><b>主线闯关</b><br>（梁山全流程）</td><td>核心玩法：选一位好汉，从身世走到征方腊终局；剧情+战斗+收集+抉择一体</td><td>主界面「闯关」入口，第一优先级</td><td>P0</td></tr>
+    <tr><td><b>讨伐挑战</b></td><td>支线循环：自由挑战敌手录任意阵容，按威势星级定难度，刷银两/功勋/碎片</td><td>敌手录内「讨伐」按钮；主线通关某章后解锁对应敌方阵营</td><td>P1</td></tr>
+    <tr><td><b>镜像对战</b></td><td>替代实时多人：挑战其他玩家阵容快照（本地可生成 NPC 镜像），配战绩榜</td><td>校场「镜像」分页；异步无后端</td><td>P2</td></tr>
+    <tr><td><b>本地双人</b></td><td>同屏轮流执牌：一人执梁山、一人执敌手，聚会彩蛋</td><td>校场「双人」分页</td><td>P3</td></tr>
+  </table>
+  <div class="box box-key">
+    <b>设计原则：</b>主线是「为什么打」的目标线，讨伐是「打完干什么」的循环线，镜像与双人是「跟谁打」的社交线。四者全部复用现有回合制引擎与 108+64 卡池，新增成本主要在关卡表与文案。
+  </div>
+
+  <!-- ==================== 二、主线总体设计 ==================== -->
+  <h2>二、主线总体设计</h2>
+  <h3>2.1 玩法内核：选人制角色扮演</h3>
+  <div class="box">
+    <ul>
+      <li><b>开局选人：</b>108 将中任选一位作为主角，从头开始闯全流程；主角立绘、星阶（rar）、定位（ro）、专属技（sk）即开局属性，初始银两按星阶给（1星 1200 / 2星 1500 / 3星 1800 / 4星 2200）。</li>
+      <li><b>差异来源三件套：</b>① 际遇线（专属剧情）② 定位主场（战斗加成）③ 终局生死（结局差异）。三者叠加即"每位人物参与的效果不同"。</li>
+      <li><b>章节推进：</b>共 10 章、每章 2-5 个节点（合计约 40 节点），节点类型为<span class="tag t-ju">剧情</span><span class="tag t-jue">抉择</span><span class="tag t-zhan">战斗</span><span class="tag t-shou">收集</span>；通关一节点存档一次。</li>
+      <li><b>版本依据：</b>主线以百二十回本（袁无涯本，含征田虎、征王庆）为蓝本，标注"原著依据"与"设计补充"两类来源，避免史实与演义混淆。</li>
+    </ul>
+  </div>
+
+  <h3>2.2 十章总览</h3>
+  <table>
+    <tr><th>章</th><th>名称</th><th>核心节点</th><th>敌方来源</th></tr>
+    <tr><td>〇</td><td>出身际遇</td><td>身世开局 · 际遇线展开 · 初入江湖（教学战）</td><td>通用山贼/官兵</td></tr>
+    <tr><td>一</td><td>逼上梁山</td><td>个人遭难 · 流落江湖 · 上梁山落草</td><td>际遇线专属仇敌 + 押送公人</td></tr>
+    <tr><td>二</td><td>梁山初立</td><td>火并王伦 · 智取生辰纲 · 晁盖掌寨 · 分授职司</td><td>王伦党羽 / 生辰纲两方</td></tr>
+    <tr><td>三</td><td>下山历炼</td><td>个人任务 · 收揽头领 · 山寨建设</td><td>豪强恶霸 H 系</td></tr>
+    <tr><td>四</td><td>三打祝家庄</td><td>一打探庄 · 二打擒扈 · 三打破庄 · 战后收编</td><td>祝家庄系（H 系扩展）</td></tr>
+    <tr><td>五</td><td>大聚义</td><td>天降石碣 · 排座次 · 授兵符 · 誓师</td><td>—（仪式章）</td></tr>
+    <tr><td>六</td><td>朝廷招安</td><td>招安之争 · 两赢童贯 · 三败高俅 · 全伙受招</td><td>朝堂奸佞 J 系</td></tr>
+    <tr><td>七</td><td>北征辽国</td><td>檀州 · 蓟州 · 幽州 · 青石峪</td><td>辽国阵营（新增）</td></tr>
+    <tr><td>八</td><td>平田虎</td><td>壶关 · 昭德 · 威胜</td><td>田虎阵营（新增）</td></tr>
+    <tr><td>九</td><td>平王庆</td><td>宛州 · 山南 · 云安 · 南丰</td><td>王庆阵营（新增）</td></tr>
+    <tr><td>十</td><td>征方腊 · 终局</td><td>润州 → 杭州 → 睦州 → 乌龙岭 → 昱岭关 → 清溪洞 · 个人生死结算</td><td>方腊乱党 F 系（全量）</td></tr>
+  </table>
+
+  <!-- ==================== 三、选人与际遇线 ==================== -->
+  <h2>三、选人系统与际遇线</h2>
+  <h3>3.1 际遇线规则</h3>
+  <div class="box">
+    <ul>
+      <li>为<b>约 30 位主要人物</b>配置专属际遇线（主线第〇~一章专用剧情，3 幕结构：<b>遭难 → 抉择 → 入伙</b>），其余人物走 5 类通用线（按定位兜底）。</li>
+      <li>际遇线内容决定：第〇章专属剧情文本、第一章「个人遭难战」的敌人、第一章抉择分支、以及部分后续章节的专属触发点（见 3.3）。</li>
+      <li>选人界面显示：立绘、星阶、定位、际遇线名、专属技、初始队伍（本人+2 名同线关联好汉，按原著关系）。</li>
+    </ul>
+  </div>
+
+  <h3>3.2 主际遇线名单（30 条，以百二十回本为蓝本）</h3>
+  <table>
+    <tr><th>人物</th><th>际遇线</th><th>关键角色 / 仇敌</th><th>专属触发点</th></tr>
+    <tr><td>林冲</td><td>风雪山神庙</td><td>高俅·高衙内·陆谦·富安</td><td>火并王伦（专属战）</td></tr>
+    <tr><td>武松</td><td>打虎杀嫂</td><td>西门庆·潘金莲·蒋门神·张都监</td><td>醉打蒋门神</td></tr>
+    <tr><td>宋江</td><td>浔阳楼题反诗</td><td>阎婆惜·黄文炳·李逵</td><td>江州法场</td></tr>
+    <tr><td>鲁智深</td><td>拳打镇关西</td><td>镇关西·金翠莲·高衙内</td><td>野猪林救林冲</td></tr>
+    <tr><td>杨志</td><td>失陷生辰纲</td><td>牛二·生辰纲押运</td><td>生辰纲立场抉择（押运 vs 劫取）</td></tr>
+    <tr><td>卢俊义</td><td>吴用赚上山</td><td>吴用·李固·贾氏</td><td>北京城大名府之战</td></tr>
+    <tr><td>燕青</td><td>主仆情义</td><td>卢俊义·李固</td><td>救卢俊义</td></tr>
+    <tr><td>花荣</td><td>清风寨</td><td>刘高·秦明</td><td>清风山收秦明</td></tr>
+    <tr><td>秦明</td><td>清风山逼反</td><td>黄信·慕容知府</td><td>青州归山</td></tr>
+    <tr><td>呼延灼</td><td>连环马</td><td>慕容知府·徐宁</td><td>钩镰枪破马</td></tr>
+    <tr><td>张清</td><td>飞石连打</td><td>东昌府守将</td><td>东昌府归顺</td></tr>
+    <tr><td>扈三娘</td><td>灭门归山</td><td>祝彪·王英</td><td>二打祝家庄（专属战）</td></tr>
+    <tr><td>孙立</td><td>登州劫狱</td><td>解珍·解宝·毛太公</td><td>祝家庄卧底</td></tr>
+    <tr><td>解珍·解宝</td><td>猎虎案</td><td>毛太公</td><td>登州劫狱</td></tr>
+    <tr><td>石秀</td><td>翠屏山</td><td>杨雄·潘巧云·裴如海</td><td>救卢俊义</td></tr>
+    <tr><td>杨雄</td><td>病关索</td><td>潘巧云·石秀</td><td>翠屏山结义</td></tr>
+    <tr><td>李逵</td><td>真假李逵</td><td>李鬼·朱贵</td><td>江州劫法场</td></tr>
+    <tr><td>吴用</td><td>智取生辰纲</td><td>晁盖·三阮·刘唐</td><td>生辰纲（主谋视角）</td></tr>
+    <tr><td>公孙胜</td><td>入云龙</td><td>罗真人·高廉</td><td>高唐州斗法</td></tr>
+    <tr><td>戴宗</td><td>神行太保</td><td>蔡九知府·吴用</td><td>假书赚蔡九</td></tr>
+    <tr><td>李俊</td><td>揭阳岭</td><td>穆弘·张横·李立</td><td>浔阳江救宋江</td></tr>
+    <tr><td>张横·张顺</td><td>浔阳江</td><td>李逵·浪里白条</td><td>水战专长</td></tr>
+    <tr><td>阮氏三雄</td><td>石碣村</td><td>何涛·晁盖</td><td>石碣村水战</td></tr>
+    <tr><td>柴进</td><td>柴家庄</td><td>殷天锡·高廉</td><td>高唐州之战</td></tr>
+    <tr><td>朱仝</td><td>义释雷横</td><td>雷横·小衙内·吴用</td><td>吴用赚朱仝</td></tr>
+    <tr><td>雷横</td><td>枷打白秀英</td><td>白秀英·朱仝</td><td>义释</td></tr>
+    <tr><td>史进</td><td>少华山</td><td>王进·朱武·陈达</td><td>少华山聚义</td></tr>
+    <tr><td>徐宁</td><td>金甲被赚</td><td>时迁·呼延灼</td><td>钩镰枪教演</td></tr>
+    <tr><td>时迁</td><td>盗甲</td><td>徐宁·祝家庄</td><td>祝家庄探庄</td></tr>
+    <tr><td>安道全</td><td>神医请诊</td><td>张顺·建康府</td><td>征方腊救治线</td></tr>
+  </table>
+  <p class="small">注：其余 78 人走 5 类通用线（绿林侠客/水寨儿郎/山寨工造/帐中谋士/江湖医道，按定位 ro 分配），保证人人可玩、差异不缺失。</p>
+
+  <h3>3.3 差异化触发点（人物 × 章节的特殊事件）</h3>
+  <table>
+    <tr><th>章节</th><th>特殊事件</th><th>触发人物（示例）</th></tr>
+    <tr><td>二 · 梁山初立</td><td>火并王伦</td><td>林冲（专属战）；他人则为剧情演出</td></tr>
+    <tr><td>四 · 三打祝家庄</td><td>二打擒扈</td><td>林冲/王英（专属战）；扈三娘主角则反转剧情</td></tr>
+    <tr><td>六 · 招安之争</td><td>主战 vs 主和</td><td>李逵/武松/鲁智深（主战）；吴用/宋江（主和）——按主角立场出不同支持者</td></tr>
+    <tr><td>十 · 征方腊</td><td>个人生死结算</td><td>全 108 人按原著命数独立结算（战死/幸存/归隐）</td></tr>
+  </table>
+
+  <!-- ==================== 四、十章节点详设 ==================== -->
+  <h2>四、十章节点详设</h2>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">〇</span><span class="zhang-name">出身际遇</span><span class="zhang-sub">选人开局 · 教学章</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>身世开局</td><td><span class="tag t-ju">剧情</span></td><td>选人即定身世：立绘/星阶/定位/际遇线/初始银两；展示个人际遇线名称与开局队伍（本人+2 同线好汉）。</td></tr>
+      <tr><td>际遇线展开</td><td><span class="tag t-ju">剧情</span><span class="tag t-xing">★差异</span></td><td>30 条际遇线专属 3 幕剧情（遭难→抉择→入伙）；通用线按定位生成。</td></tr>
+      <tr><td>初入江湖</td><td><span class="tag t-zhan">战斗</span></td><td>教学战 1：山贼 2 人（lv3 部将模板），教学普攻/技能；教学战 2：官兵小队，教学治疗与换人。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">一</span><span class="zhang-name">逼上梁山</span><span class="zhang-sub">个人遭难 · 落草</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>个人遭难</td><td><span class="tag t-zhan">战斗</span><span class="tag t-xing">★差异</span></td><td>按际遇线配置仇敌战（如林冲战陆谦/富安、武松战蒋门神/张都监）。胜后获得银两与「雪冤」标记。</td></tr>
+      <tr><td>流落江湖</td><td><span class="tag t-jue">抉择</span><span class="tag t-xing">★差异</span></td><td>抉择：投二龙山 / 桃花山 / 直上梁山。按人物关系给推荐与不同入伙剧情（后续小分支文本差异）。</td></tr>
+      <tr><td>上梁山落草</td><td><span class="tag t-ju">剧情</span><span class="tag t-shou">收集</span></td><td>加入山寨，获得「梁山新丁」称号（与称号系统联动）；若主角是林冲，触发火并王伦铺垫。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">二</span><span class="zhang-name">梁山初立</span><span class="zhang-sub">立寨</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>火并王伦</td><td><span class="tag t-zhan">战斗</span><span class="tag t-xing">★差异</span></td><td>林冲主角：专属决斗战；他人：剧情演出（吴用激将+林冲火并）。晁盖掌寨，主角获职司。</td></tr>
+      <tr><td>智取生辰纲</td><td><span class="tag t-jue">抉择</span><span class="tag t-zhan">战斗</span><span class="tag t-xing">★差异</span></td><td>杨志主角：站在押运方视角（黄泥冈被劫 → 抉择自首/落草）；他人：站在梁山方（劫纲战，敌人=杨志/老都管）。</td></tr>
+      <tr><td>分授职司</td><td><span class="tag t-shou">收集</span><span class="tag t-ju">剧情</span></td><td>按主角定位授职（马军/步军/水军/头领），解锁对应「职司加成」；顺带收编当日入伙头领。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">三</span><span class="zhang-name">下山历炼</span><span class="zhang-sub">成长 · 收集</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>个人任务</td><td><span class="tag t-zhan">战斗</span><span class="tag t-xing">★差异</span></td><td>按定位生成任务：马军→劫粮道、步军→攻城巷战、水军→水寨攻防、机关→破城防器械、谋士→离间计（降智型战斗）、医疗→救伤者（治疗关）。敌人用豪强恶霸 H 系。</td></tr>
+      <tr><td>收揽头领</td><td><span class="tag t-shou">收集</span></td><td>招募 2-3 名新好汉入队；同线/同乡人物招募友好度 +1（低耗银两）。</td></tr>
+      <tr><td>山寨建设</td><td><span class="tag t-jue">抉择</span></td><td>银两三选投：训练（+攻）/ 粮草（+血）/ 工事（后续守山战减伤），影响第 4 章祝家庄战前状态。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">四</span><span class="zhang-name">三打祝家庄</span><span class="zhang-sub">首个大战役</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>一打探庄</td><td><span class="tag t-zhan">战斗</span></td><td>杨雄/石秀/时迁线铺垫；探庄失败（敌方祝家军 lv2 心腹 3 人），教学"战败不亡、重试可换阵"。</td></tr>
+      <tr><td>二打擒扈</td><td><span class="tag t-zhan">战斗</span><span class="tag t-xing">★差异</span></td><td>林冲/王英专属擒扈战；扈三娘主角则反转（扈家视角）。胜后收扈三娘入队。</td></tr>
+      <tr><td>三打破庄</td><td><span class="tag t-zhan">战斗</span></td><td>孙立卧底开庄门（孙立/解珍/解宝主角有专属演出）；BOSS：祝朝奉+祝氏三杰（lv1 首恶模板）。</td></tr>
+      <tr><td>战后收编</td><td><span class="tag t-shou">收集</span></td><td>收编扈三娘/孙立/解珍/解宝/乐和等；获得「三打祝家庄」章节称号。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">五</span><span class="zhang-name">大聚义</span><span class="zhang-sub">仪式章 · 无战斗</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>天降石碣</td><td><span class="tag t-ju">剧情</span></td><td>石碣现世、一百单八将姓名刻于碑文的全屏演出。</td></tr>
+      <tr><td>排座次</td><td><span class="tag t-ju">剧情</span><span class="tag t-shou">收集</span></td><td>108 席全展示；主角获得对应座次与称号（联动称号系统「天罡聚义/地煞归位」）。</td></tr>
+      <tr><td>授兵符 · 誓师</td><td><span class="tag t-shou">收集</span></td><td>组队槽位 +1（可上 4 人）；「替天行道」旗号展示；解锁第 6 章。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">六</span><span class="zhang-name">朝廷招安</span><span class="zhang-sub">抉择 · 双败高俅</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>招安之争</td><td><span class="tag t-jue">抉择</span><span class="tag t-xing">★差异</span></td><td>主战 vs 主和：按主角立场出支持者（李逵/武松/鲁智深 vs 吴用/宋江）；分支影响后续 2 个小剧情文本与奖励倾向（主战+功勋、主和+银两）。</td></tr>
+      <tr><td>两赢童贯</td><td><span class="tag t-zhan">战斗</span></td><td>童贯军（朝堂奸佞 J 系 lv2 心腹 3+2 人）。</td></tr>
+      <tr><td>三败高俅</td><td><span class="tag t-zhan">战斗</span></td><td>BOSS 战：高俅（J1，lv1 首恶 5 星）+ 党羽；胜后「高俅被擒」演出（原著不杀高俅的剧情还原）。</td></tr>
+      <tr><td>全伙受招</td><td><span class="tag t-ju">剧情</span><span class="tag t-shou">收集</span></td><td>受招安仪式；解锁第 7 章；获得「招安」相关称号。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">七</span><span class="zhang-name">北征辽国</span><span class="zhang-sub">新增阵营章</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>檀州 / 蓟州</td><td><span class="tag t-zhan">战斗</span></td><td>辽军先锋（辽国阵营 L 系 lv2/lv3），两连战。</td></tr>
+      <tr><td>幽州</td><td><span class="tag t-zhan">战斗</span></td><td>辽军主力战（L 系 lv1/lv2 混合 4 人）。</td></tr>
+      <tr><td>青石峪 · 昊天塔</td><td><span class="tag t-zhan">战斗</span><span class="tag t-jue">抉择</span></td><td>决战：兀颜光（L 系头目，lv1 首恶 5 星）；抉择：破阵直取 / 先诱敌（影响伤亡）。班师。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">八</span><span class="zhang-name">平田虎</span><span class="zhang-sub">新增阵营章</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>壶关 / 昭德</td><td><span class="tag t-zhan">战斗</span></td><td>田虎军（田虎阵营 T 系 lv2/lv3），两连战；公孙胜主角有斗法专属剧情（对乔道清）。</td></tr>
+      <tr><td>威胜 · 田虎授首</td><td><span class="tag t-zhan">战斗</span></td><td>BOSS：田虎（T 系头目，lv1 首恶 4-5 星）+ 左右护法。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">九</span><span class="zhang-name">平王庆</span><span class="zhang-sub">新增阵营章</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>宛州 / 山南</td><td><span class="tag t-zhan">战斗</span></td><td>王庆军（王庆阵营 W 系 lv2/lv3）。</td></tr>
+      <tr><td>云安 / 南丰 · 王庆授首</td><td><span class="tag t-zhan">战斗</span></td><td>连战 + BOSS：王庆（W 系头目）+ 李助（剑术，lv1 首恶 5 星）。</td></tr>
+    </table>
+  </div>
+
+  <div class="zhang">
+    <div class="zhang-h"><span class="zhang-no">十</span><span class="zhang-name">征方腊 · 终局</span><span class="zhang-sub">血战 · 生死结算</span></div>
+    <table>
+      <tr><th style="width:150px;">节点</th><th style="width:170px;">类型</th><th>设计内容</th></tr>
+      <tr><td>润州 → 杭州 → 睦州</td><td><span class="tag t-zhan">战斗</span></td><td>方腊军三连战（方腊乱党 F 系 lv2/lv3，杭州战含方貌/石宝）。</td></tr>
+      <tr><td>乌龙岭 / 昱岭关</td><td><span class="tag t-zhan">战斗</span></td><td>两大战役（F 系 lv1/lv2，昱岭关庞万春放箭——按原著触发减员剧情）。</td></tr>
+      <tr><td>清溪洞 · 方腊授首</td><td><span class="tag t-zhan">战斗</span></td><td>终局 BOSS：方腊（F1，5 星）+ 方杰（F2）+ 亲卫；鲁智深主角有「生擒方腊」专属演出。</td></tr>
+      <tr><td>个人生死结算</td><td><span class="tag t-xing">★终局差异</span></td><td>按原著命数结算：主角与入队好汉逐一判定（战死/幸存/归隐），产生通关结局文本与「征方腊」系列称号；开启周目（继承称号与图鉴）。</td></tr>
+    </table>
+  </div>
+
+  <!-- ==================== 五、节点类型通用规则 ==================== -->
+  <h2>五、节点类型通用规则</h2>
+  <table>
+    <tr><th style="width:90px;">类型</th><th>通用规则</th><th style="width:200px;">奖励基准</th></tr>
+    <tr><td><span class="tag t-ju">剧情</span></td><td>自动演出，可跳过；含人物立绘、文案、关键演出（石碣、誓师等）。</td><td>少量银两</td></tr>
+    <tr><td><span class="tag t-jue">抉择</span></td><td>2-3 选一，即时存档，可选后重玩回看（存 choice 记录）；影响后续文本、奖励倾向、隐藏条件。</td><td>按分支 ±银两/功勋</td></tr>
+    <tr><td><span class="tag t-zhan">战斗</span></td><td>复用现有回合制引擎；敌人按章配置（来源见第六章）；失败不惩罚，可换阵重试；首胜结算奖励。</td><td>银两 + 功勋 + 概率新好汉</td></tr>
+    <tr><td><span class="tag t-shou">收集</span></td><td>招募/收编/图鉴点亮；与收集进度、称号联动。</td><td>新好汉 / 称号 / 图鉴</td></tr>
+  </table>
+  <div class="box box-warn">
+    <b>战败规则（核心体验点）：</b>主线战斗<b>不设死亡惩罚</b>，战败提示换阵重试——保证"收藏向玩家"不被卡关劝退；难度曲线只做缓升（见 6.3）。
+  </div>
+
+  <!-- ==================== 六、敌方配置与难度 ==================== -->
+  <h2>六、敌方配置与难度曲线</h2>
+  <h3>6.1 敌人来源</h3>
+  <table>
+    <tr><th>章节</th><th>敌人阵营</th><th>来源</th></tr>
+    <tr><td>〇~三</td><td>山贼官兵 / 豪强恶霸 H</td><td>复用敌手录（通用模板 + H 系）</td></tr>
+    <tr><td>四</td><td>祝家庄系</td><td>H 系扩展（祝朝奉/祝龙/祝虎/祝彪/栾廷玉/扈三娘——敌手录已含则直接引用，缺位列入新增清单）</td></tr>
+    <tr><td>六</td><td>朝堂奸佞 J（童贯/高俅/党羽）</td><td>复用敌手录 J 系</td></tr>
+    <tr><td>七</td><td>辽国 L（新阵营）</td><td>新增 8-10 人（兀颜光、耶律辉、耶律宗云等，百二十回本为依据）</td></tr>
+    <tr><td>八</td><td>田虎 T（新阵营）</td><td>新增 6-8 人（田虎、孙安、乔道清等）</td></tr>
+    <tr><td>九</td><td>王庆 W（新阵营）</td><td>新增 6-8 人（王庆、李助、段三娘等）</td></tr>
+    <tr><td>十</td><td>方腊乱党 F（全量）</td><td>复用敌手录 F 系 25 人</td></tr>
+  </table>
+  <p class="small">新增合计约 20-26 名敌手，纳入敌手录新阵营，同时服务主线第 7-9 章与讨伐模式——与「敌手录继续扩容」的方向一致。</p>
+
+  <h3>6.2 队伍构成</h3>
+  <ul>
+    <li>普通战：敌方 2-3 人（lv2/lv3 混合）；战役章（四/六/十）：敌方 3-4 人 + BOSS（lv1 首恶模板）；终章 BOSS：方腊+方杰双 5 星。</li>
+    <li>敌方吃现有 scale（随主角等级成长），数值沿用当前战斗引擎。</li>
+  </ul>
+
+  <h3>6.3 难度曲线（设计值）</h3>
+  <table>
+    <tr><th>章</th><th>〇</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th><th>七</th><th>八</th><th>九</th><th>十</th></tr>
+    <tr><td>敌方平均强度</td><td>20</td><td>30</td><td>40</td><td>45</td><td>55</td><td>—</td><td>65</td><td>70</td><td>75</td><td>80</td><td>90</td></tr>
+    <tr><td>战斗场次</td><td>2</td><td>1-2</td><td>1-2</td><td>1-2</td><td>3</td><td>0</td><td>2-3</td><td>4</td><td>3</td><td>4</td><td>6-7</td></tr>
+  </table>
+  <p class="small">强度为设计参考值，接入时用现有数值体系实测校准；第 5 章仪式章无战斗。</p>
+
+  <!-- ==================== 七、差异化机制细则 ==================== -->
+  <h2>七、差异化机制细则（人物 × 效果）</h2>
+  <table>
+    <tr><th style="width:130px;">机制</th><th>规则</th></tr>
+    <tr><td><b>际遇线</b></td><td>30 条专属 3 幕剧情（遭难→抉择→入伙），决定第〇~一章文本、第一章仇敌战、部分章节专属触发点。</td></tr>
+    <tr><td><b>定位主场</b></td><td>按 ro 在对应章节点加成：水军（水战关 +攻防）、马军（野战 +速）、步军（攻城 +攻）、机关（破城防关易胜）、谋士（离间关敌方降智）、医疗（救治关 +治疗量）。仅作用于"该人物出战"时。</td></tr>
+    <tr><td><b>宿敌战</b></td><td>主角 foe 关联的敌手出现在章节战中时，触发「讨还血债」：该敌手数值 +10% 但奖励 +50%，且有专属对话（复用敌手录 foe 字段）。</td></tr>
+    <tr><td><b>抉择分支</b></td><td>招安主战/主和、生辰纲押运/劫取（杨志）、山寨建设三选等；记录 choice 并影响后续文本与奖励倾向，可回看。</td></tr>
+    <tr><td><b>终局生死</b></td><td>征方腊章按原著命数独立结算（如张顺涌金门、解珍解宝乌龙岭、阮小二/石秀战死；鲁智深坐化、武松断臂出家、燕青/李俊归隐、宋江/卢俊义受封后亡故等），主角死亡则触发「悲壮结局」并允许从第十章重开。</td></tr>
+    <tr><td><b>收集联动</b></td><td>际遇线内人物开局即在队；章节收编关联人物招募友好度 +1；与「图鉴/称号/收集进度」三系统共享存档。</td></tr>
+  </table>
+
+  <!-- ==================== 八、奖励、成长与存档 ==================== -->
+  <h2>八、奖励、成长与存档</h2>
+  <ul>
+    <li><b>奖励：</b>银两（招募/建设/装备）、功勋（晋升职衔）、新好汉（收编）、称号（与现有 titles 系统合并：新增「主线通关」系列称号如"替天行道""雪夜上梁山""血战乌龙岭"等，可与成就称号并列展示）。</li>
+    <li><b>成长：</b>主角吃现有银两升级/星阶晋升；每章首胜额外 +1 功勋成就点；第 5 章后队伍槽位 +1。</li>
+    <li><b>存档：</b>state 新增 <code>journey</code> 字段：<code>{ heroId, chapter, nodeIdx, choices:{}, trophies:[], deaths:[] }</code>；节点即时存档，读档回本章开头；与收藏/称号/敌手录共用 <code>localStorage</code> 同一 key，向后兼容旧档。</li>
+    <li><b>周目：</b>通关解锁二周目（继承图鉴/称号，重置收集与银两，可选不同主角体验不同际遇线）。</li>
+  </ul>
+
+  <!-- ==================== 九、数据规模与排期 ==================== -->
+  <h2>九、数据规模与开发排期建议</h2>
+  <table>
+    <tr><th>模块</th><th>规模</th><th>工作量参考</th></tr>
+    <tr><td>章节节点</td><td>10 章 / 约 40 节点（战斗 24-26、剧情 8、抉择 5、收集 6）</td><td>关卡表 + 文案（中）</td></tr>
+    <tr><td>际遇线</td><td>30 条 × 3 幕 + 5 类通用线</td><td>文案（大，分批做：先 12 条主线再铺开）</td></tr>
+    <tr><td>新增敌手</td><td>辽 8-10 + 田虎 6-8 + 王庆 6-8 + 祝家庄补缺 ≈ 22-26 人</td><td>数据录入（小）</td></tr>
+    <tr><td>模式入口</td><td>主界面四模式框架 + 闯关地图 UI + 选人开局</td><td>前端（中）</td></tr>
+    <tr><td>终局结算</td><td>生死判定表 + 结局文本</td><td>文案（中）</td></tr>
+  </table>
+  <div class="box box-key">
+    <b>建议实施顺序：</b>① 模式入口与选人开局 → ② 章节框架（10 章 × 节点表跑通，先全部走通用线）→ ③ 际遇线分两批注入（首批 12 条）→ ④ 新增敌手阵营与第 7-9 章 → ⑤ 终局生死结算与周目。
+  </div>
+
+  <!-- ==================== 十、阵营线路扩展 ==================== -->
+  <h2>十、阵营线路扩展（多视角全程线）</h2>
+  <p class="note">v1.1 新增思路：选人制不限于梁山 108 将——可选<b>敌手阵营</b>角色，走其自己的全程线路，拥有不同结局；与梁山线互文对位。</p>
+
+  <h3>10.1 设计价值</h3>
+  <div class="box box-key">
+    <ul>
+      <li><b>互文体验：</b>同一场战役正反两方各打一遍（祝家庄、招安、征方腊），"替天行道"与"抗宋立国/把持朝纲"双视角完整呈现。</li>
+      <li><b>重玩性翻倍：</b>敌手录 64 人从"图鉴/讨伐对象"升级为"可扮演角色"，收集系统与主线深度绑定。</li>
+      <li><b>成本可控：</b>战斗节点大量<b>正反复用</b>——同一战场换阵营视角与演出文案，新增成本以文案为主。</li>
+    </ul>
+  </div>
+
+  <h3>10.2 阵营线路框架（对位梁山 10 章）</h3>
+  <table>
+    <tr><th style="width:120px;">阵营线</th><th>全程脉络（6-10 章）</th><th style="width:200px;">可选主角（首批）</th><th style="width:170px;">结局设计</th></tr>
+    <tr><td><b>朝堂奸佞 J</b></td><td>入仕拜官 → 构陷异己（高俅害林冲、蔡京党争）→ 权倾朝野 → 督师征剿梁山（对位招安章）→ 招安设计 · 借刀杀人 → 方腊渔利 → 终局</td><td>高俅 / 蔡京 / 童贯</td><td>善终 / 被清算 / 随国倾覆（按角色史实与演义结局）</td></tr>
+    <tr><td><b>豪强恶霸 H</b></td><td>立庄立业 → 与梁山结怨（祝家庄/曾头市）→ 抵敌（三打祝家庄、曾头市之役反打）→ 存亡抉择 → 终局</td><td>祝朝奉 / 史文恭 / 曾长者</td><td>灭门（原著皆灭）/ 归顺 / 逃亡</td></tr>
+    <tr><td><b>方腊乱党 F</b></td><td>聚众起事 → 八州震动 → 建号立国（歙州起事·江南称帝）→ 抗宋抗梁 → 决战（润州→清溪洞，对位梁山第十章）→ 终局</td><td>方腊 / 方杰 / 方貌 / 石宝</td><td>兵败被擒（史实）/ 潜隐 / 殉义</td></tr>
+    <tr><td><b>辽国 L（远期）</b></td><td>守土抗战（对位第七章）→ 檀州/幽州拉锯 → 终局</td><td>兀颜光 / 耶律辉</td><td>兵败 / 议和 / 死节</td></tr>
+    <tr><td><b>田虎 T（远期）</b></td><td>割据称王（对位第八章）→ 壶关/威胜 → 终局</td><td>田虎 / 孙安 / 乔道清</td><td>授首 / 归降 / 遁走</td></tr>
+    <tr><td><b>王庆 W（远期）</b></td><td>聚众反宋（对位第九章）→ 宛州/南丰 → 终局</td><td>王庆 / 李助 / 段三娘</td><td>授首 / 潜隐 / 死战</td></tr>
+  </table>
+
+  <h3>10.3 关键战役正反对位（复用表）</h3>
+  <table>
+    <tr><th>战役</th><th>梁山线视角</th><th>敌手线视角</th><th>复用方式</th></tr>
+    <tr><td>祝家庄</td><td>三打祝家庄（第 4 章）</td><td>豪强线：祝家庄存亡</td><td>同一战场 3 场战斗，敌方/我方数组互换，演出文案重写</td></tr>
+    <tr><td>朝廷招安</td><td>两赢童贯 · 三败高俅（第 6 章）</td><td>奸佞线：督师征剿</td><td>战斗节点互换视角，加"下旨/议和"抉择</td></tr>
+    <tr><td>征方腊</td><td>润州→清溪洞（第 10 章）</td><td>方腊线：守江山·抗梁</td><td>六大战役正反打，方腊线 BOSS 为宋江/卢俊义等（梁山侧"敌手"）</td></tr>
+  </table>
+
+  <h3>10.4 阵营线路规则</h3>
+  <ul>
+    <li><b>选人：</b>开局选人界面分"梁山好汉 / 敌手阵营"两大页签；敌手页签按阵营分组展示可扮演角色（首批每阵营 2-4 人，标威势星级与定位）。</li>
+    <li><b>际遇线：</b>敌手主角同样有专属际遇线（如高俅"泼皮发迹"、方腊"摩尼起事"、祝朝奉"祝家庄立业"），首幕即定阵营立场。</li>
+    <li><b>定位主场：</b>与梁山线同规则（武将/谋士/法师/刺客向），按角色特性加成。</li>
+    <li><b>敌我互换：</b>敌手线中，梁山好汉整体作为"敌方"（按 108 将 ro/wp 生成敌方卡组，沿用敌手机制），部分宿敌战触发"梁山宿怨"。</li>
+    <li><b>终局结算：</b>每阵营独立结局分支（见 10.2），与梁山线生死结算并列写入结局图鉴。</li>
+    <li><b>联动：</b>通关某阵营线 → 解锁该阵营在讨伐模式的完整难度档 + 对应阵营称号（如"奸佞当道""替天行道对立面"）。</li>
+  </ul>
+
+  <h3>10.5 存档与规模</h3>
+  <table>
+    <tr><th>项</th><th>设计</th></tr>
+    <tr><td>存档</td><td>state 新增 <code>campaign</code>：{ current:'liangshan'|'j'|'h'|'f'|..., routes:{ liangshan:{...}, j:{...}, ... } }，多条线路进度并存，可随时切换开新线。</td></tr>
+    <tr><td>规模</td><td>每条敌手线 6-10 章 / 20-30 节点；战斗约 60% 复用对位战场，新增以文案为主。</td></tr>
+    <tr><td>排期</td><td>梁山线 P0 → <b>方腊线 P1</b>（F 系 25 人最全、呼声最高）→ 奸佞线 P2 → 豪强线 P3 → 辽/田虎/王庆远期。</td></tr>
+  </table>
+  <div class="box box-warn">
+    <b>成本提示（诚实口径）：</b>多阵营线是"内容翻倍、战斗复用"——单条敌手线开发量约为梁山线的 60-70%（战场复用省下的部分），四条敌手线合计约为梁山线的 2.5 倍总内容量；建议按 P1→P3 分批投产，每完成一线即验证留存后再铺下一线。
+  </div>
+
+  <p class="meta" style="margin-top:30px;">— 水浒·侠义谱 · 主线设计案 v1.1 · 2026-09 · 含多阵营线路扩展 · 待确认后进入实施 —</p>
+
+</div>
+</body>
+</html>
